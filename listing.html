@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>URL Shortener</title></head>
+<body>
+    <h2>Welcome {{ username }}</h2> 
+    {% if msg %} <!-- This will display a message if a message is present-->
+    <p>{{ msg }}</p>
+    {% endif %}
+    <form method="post"> <!-- Sets up the way to shorten the ur;-->
+        <input type="text" name="original_url" placeholder="Enter URL to shorten" required><br> <!-- Creates the text box to accept urls-->
+        <button type="submit">Shorten</button> <!-- Creates the button to activate the shortening-->
+    </form>
+    <h3>Your Shortened URLs</h3>
+    {% if urls %} <!-- creates the table of urls if you have maded urls-->
+    <table border="1"> <!-- Creates the actual table-->
+        <tr><th>Shortened URL</th><th>Original URL</th></tr>
+        {% for url in urls %} <!-- Goes through every url in the database collected earlier in the base code to create the database-->
+        <tr>
+            <td><a href="{{ url_for('redirect_url', short_url=url.short_url, _external=True) }}">{{ request.host_url }}{{ url.short_url }}</a></td> <!-- Combines the shortened urls with the host url for better look and online consistency-->
+            <td>{{ url.original_url }}</td> <!-- Displays the original URL-->
+        </tr>
+        {% endfor %} <!-- Ends the display loop-->
+    </table>
+    {% else %} <!-- Displays a helpful messge, encouraging site use.-->
+    <p>No URLs yet. Make some.</p>
+    {% endif %}
+    <a href="/logout">Logout</a> <!-- Add a way for someone to log out of the site to use another account-->
+</body>
+</html>
